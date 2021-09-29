@@ -1,0 +1,81 @@
+---
+title: "<center><strong>Data Science for Economists</strong></center>"
+author: "<center>by Grant McDermott</center>"
+date: "<center>05: Data Cleaning & Wrangling 1 (Tidyverse) </center>"
+output: html_document
+---
+
+```{r setup, include = FALSE}
+
+knitr::opts_chunk$set(echo = FALSE)
+
+library(tidyverse)
+library(nycflights13)
+
+```
+
+
+
+```{r}
+
+## These next two lines of code do exactly the same thing.
+
+# dplyr
+mpg %>% filter(manufacturer=="audi") %>% group_by(model) %>% summarise(hwy_mean = mean(hwy))
+
+# base R
+summarise(group_by(filter(mpg, manufacturer=="audi"), model), hwy_mean = mean(hwy))
+
+
+```
+
+
+```{r}
+
+packageVersion("dplyr")
+
+
+```
+
+
+
+```{r}
+
+starwars %>% 
+  filter( 
+    species == "Human", 
+    height >= 190
+    )
+
+```
+
+```{r}
+
+starwars %>% 
+  filter(!is.na(height))
+
+```
+
+
+```{r}
+
+starwars %>% 
+  select(name:skin_color, species, -height)
+
+```
+
+
+```{r}
+
+# You can rename variables inside the select command
+starwars %>%
+  select(alias=name, crib=homeworld, sex=gender)
+
+starwars %>%
+  rename(character = name, origins = homeworld, gender_ID = gender)
+
+```
+
+
+
+
