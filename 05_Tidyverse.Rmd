@@ -107,8 +107,36 @@ starwars %>%
 ```
 
 
+```{r}
+
+# moves the first variables all the way to the left, the resof the data follows with the everything() command
+starwars %>% 
+  select(species, homeworld, everything()) %>%
+  head(5)
+
+```
+
+```{r}
+
+# mutate creates new variables
+starwars %>% 
+  select(name, birth_year) %>%
+  mutate(dog_years = birth_year * 7) %>%
+  mutate(comment = paste0(name, " is ", dog_years, " in dog years."))
+
+```
+
+```{r}
+
+# mutate can work on recently created variables without adding new mutate command 
+starwars %>% 
+  select(name, birth_year) %>%
+  mutate(
+    dog_years = birth_year * 7,
+    comment = paste0(name, " is ", dog_years, " in dog years.")
+    )
 
 
 
-
+```
 
