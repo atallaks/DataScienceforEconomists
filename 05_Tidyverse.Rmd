@@ -15,23 +15,32 @@ library(nycflights13)
 ```
 
 
+So-called [Tidy](https://vita.had.co.nz/papers/tidy-data.pdf) data are usually long, not wide, and: (1) each variable forms a column; (2) each observation is a row; and (3) each type of observation type forms a table. 
+
+THis session will focus mainly on two packages: dplyr, and tidyr.
+
+
+
 
 ```{r}
 
 ## These next two lines of code do exactly the same thing.
 
-# dplyr
+# by using the pipes in dplyr, the code is cleaner and more intuitive
 mpg %>% filter(manufacturer=="audi") %>% group_by(model) %>% summarise(hwy_mean = mean(hwy))
 
-# base R
+# base R, less intuitive in many instances 
 summarise(group_by(filter(mpg, manufacturer=="audi"), model), hwy_mean = mean(hwy))
 
 
 ```
 
 
+In the dplyr package, 5 verbs are especially useful: filter, arrange, select, mutate, and summarize.
+
 ```{r}
 
+# dplyr: the "workhorse" of R
 packageVersion("dplyr")
 
 
@@ -41,16 +50,27 @@ packageVersion("dplyr")
 
 ```{r}
 
+# The filter command can include several conditions, separated by , or &
 starwars %>% 
-  filter( 
-    species == "Human", 
-    height >= 190
-    )
+  filter(species == "Human", height >= 190)
+
 
 ```
 
+
 ```{r}
 
+# grep - or grepl - search for specific words inside character vectors
+starwars %>% 
+  filter(grepl("Skywalker", name))
+
+```
+
+
+
+```{r}
+
+# include all rows where the height variable is NOT missing
 starwars %>% 
   filter(!is.na(height))
 
@@ -59,6 +79,7 @@ starwars %>%
 
 ```{r}
 
+# include columns from name to skin color - include species - and remove height
 starwars %>% 
   select(name:skin_color, species, -height)
 
@@ -69,12 +90,24 @@ starwars %>%
 
 # You can rename variables inside the select command
 starwars %>%
-  select(alias=name, crib=homeworld, sex=gender)
+  select(alias = name, crib = homeworld, sex = gender)
 
+# name is similiar, but all columns are kept (unlike select above)
 starwars %>%
   rename(character = name, origins = homeworld, gender_ID = gender)
 
 ```
+
+```{r}
+
+# select variables that contains word/variable inside brackets 
+starwars %>% 
+  select(name, contains("color"))
+
+```
+
+
+
 
 
 
